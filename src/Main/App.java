@@ -11,19 +11,44 @@ package Main;
  */
 class App {
     
+    private int[] CPU = new int[43];
+    private String[] subRutines;
+    
+    public App(String[] subRutines){
+        for (int i = 0; i <=42; i++){
+            this.CPU[i] = 0;
+        }
+        
+        this.subRutines = subRutines;
+    }
+    
     public void readInstruction(String instruction){
         String[] command = instruction.split(" ");
+        String[] params = command[1].split(",");
+        int intPosition1;
+        String position1, position2;
         
         switch (command[0]) {
             case "MOV":
-                int position1 = Integer.parseInt(params[0].substring(1));
-                int position2 = Integer.parseInt(params[1].substring(1));
-                this.copy(position1, position2);
+                position2 = (params[1]);
+                System.out.println(params[0]);
+                System.out.println(params[1]);
+                
+                if (params[0].contains("R")){
+                    position1 = (params[0]);
+                    this.copy(position1, position2);
+                } else{
+                    intPosition1 = Integer.parseInt(params[0]);
+                    this.move(intPosition1, position2);
+                }
+                
+
                 break;
             case "ADD":
-                int position1 = Integer.parseInt(params[0].substring(1));
-                int position2 = Integer.parseInt(params[1].substring(1));
+                /*position1 = Integer.parseInt(params[0].substring(1));
+                position2 = Integer.parseInt(params[1].substring(1));
                 this.add(position1, position2);
+                */
                 break;
             case "DEC":
                 break;
@@ -61,12 +86,32 @@ class App {
      */   
     }
     
-    public void copy(int pos1, int pos2){
-        System.out.println("MOV R" + pos1 + ",R" + pos2 + " => copia el valor del registro Rxx al registro Ryy");
+    public void print(){
+        for (Object element: this.CPU){
+            System.out.print(element + " - ");
+        }
+        System.out.println("");
     }
     
-    public void move(int number, int pos){
+    public int convert(String pos){
+        return Integer.parseInt(pos.replace("R", "0"));
+    }
+    
+    public void copy(String pos1, String pos2){
+        System.out.println("MOV_copy R" + pos1 + ",R" + pos2 + " => copia el valor del registro Rxx al registro Ryy");
+        
+        this.CPU[convert(pos2)] = this.CPU[convert(pos1)];
+        this.print();
+    }
+    
+    //Recibe un entero number, y lo asigna en la posición pos
+    public void move(int number, String pos){
         System.out.println("MOV " + number + ",R" + pos + " => copia la constante numérica d (especificada como un número decimal) al registro Rxx;");
+        pos = pos.replace("R", "0");
+        this.CPU[Integer.parseInt(pos)] = number;
+       
+        this.print();
+        
     }
     
     public void add(int pos1, int pos2){
