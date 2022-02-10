@@ -9,22 +9,34 @@ public class TestApp {
 
     public static void main(String[] args) {
         String[] subRutines = new String[]{
-            "MOV 13,R00",
-            "INV R00",
+            "MOV 5,R00",
             "MOV 10,R01",
-            "JZ 8",
+            "JZ 7",
             "ADD R02,R01",
             "DEC R00",
-            "JMP 4",
+            "JMP 3",
             "MOV R02,R42"
+
         };
 
         App app = new App(subRutines);
         System.out.println("Welcome to Online IDE!! Happy Coding :)");
+        
+        if (subRutines.length > 1024){
+            System.out.println("ERROR: solo se aceptan hasta 1024 instrucciones.");
+            return;
+        }
 
         try {
             for (int i = 0; i <= subRutines.length; i++) {
-
+                
+                if (app.getSteps() > 50000) {
+                    System.out.println(" ***** LÍMITE ALCANZADO *****");
+                    System.out.println("El valor final de esto es: " + app.returnFinalValue());
+                    break;
+                }
+                
+                
                 if (i > subRutines.length) {
                     break;
                 }
@@ -48,14 +60,9 @@ public class TestApp {
                 app.readInstruction(subRutines[i]);
                 app.addSteps();
 
-                if (app.getSteps() > 50000) {
-                    System.out.println(" ***** LÍMITE ALCANZADO *****");
-                    System.out.println("El valor final de esto es: " + app.returnFinalValue());
-                    break;
-                }
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("El valor final de esto es: " + app.returnFinalValue());
+            System.out.println("El valor final de esto es: " + String.valueOf(app.returnFinalValue()));
             System.out.println("Total pasos: " + app.getSteps());
         }
 
