@@ -14,6 +14,7 @@ class App {
     private int[] CPU = new int[43];
     private String[] subRutines;
     private int steps = 0;
+    private String result;
     
     public App(String[] subRutines){
         for (int i = 0; i <=42; i++){
@@ -22,6 +23,15 @@ class App {
         
         this.subRutines = subRutines;
     }
+    
+    public void setResult(String result){
+        this.result = result;
+    }
+    
+    public String getResult(){
+        return this.result;
+    }
+    
     
     public void readInstruction(String instruction){
         String[] command = instruction.split(" ");

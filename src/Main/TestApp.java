@@ -19,6 +19,7 @@ public class TestApp {
 
         };
 
+        String finalResult = "";
         App app = new App(subRutines);
         System.out.println("Welcome to Online IDE!! Happy Coding :)");
         
@@ -61,11 +62,21 @@ public class TestApp {
                 app.addSteps();
 
             }
+            
+            finalResult = String.valueOf(app.returnFinalValue());
+            System.out.println("El valor final de esto es: " + finalResult);
+            System.out.println("Total pasos: " + app.getSteps());
+            
         } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("El valor final de esto es: " + String.valueOf(app.returnFinalValue()));
+            
+            finalResult = String.valueOf(app.returnFinalValue());
+            System.out.println("El valor final de esto es: " + finalResult);
             System.out.println("Total pasos: " + app.getSteps());
         }
-
+        
+        app.setResult(finalResult);
+        String superFinalResult = app.getResult();
+        
     }
 
 }
