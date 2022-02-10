@@ -55,9 +55,20 @@ class App {
                 break;
                 
             case "DEC":
+                
+                position1 = params[0];
+                
+                this.decrement(convert(position1));
+                
                 break;
+                
             case "INC":
+                position1 = params[0];
+                
+                this.increment(convert(position1));
+                
                 break;
+                
             case "INV":
                 break;
             case "JMP":
@@ -65,14 +76,17 @@ class App {
             case "JZ":
                 break;
             case "NOP":
+                System.out.println("Pues no hago nada");
                 break;
         }  
     }
     
+    //Por cada instrucción, aunmenta en uno la cantidad de pasos hechos hasta ahora.
     public void addSteps(){
         this.steps++;
     }
     
+    //Retorna la cantidad de pasos hechos hasta ahora.
     public int getSteps(){
         return this.steps;
     }
@@ -90,6 +104,7 @@ class App {
         return Integer.parseInt(pos.replace("R", "0"));
     }
     
+    //Dadas las posiciones Rxx y Ryy, asigna el valor de Rxx a Ryy
     public void copy(String pos1, String pos2){
         System.out.println("MOV_copy R" + pos1 + ",R" + pos2 + " => copia el valor del registro Rxx al registro Ryy");
         
@@ -116,25 +131,44 @@ class App {
         this.print();
     }
     
+    //Dada la posición de entrada, reduce en uno el valor de su elemento
     public void decrement(int position){
         System.out.println("DEC Rxx → disminuye el valor de Rxx en 1. Si el valor del registro es 0, al disminuirlo se genera un desbordamiento y su resultado sería 232–1");
+        
+        if (CPU[position] == 0){
+            CPU[position] = Integer.parseInt(String.valueOf(Math.round(Math.pow(2, 32) - 1)));
+        } else{
+            CPU[position]--;
+        }
+        
+        this.print();
     }
     
     public void increment(int position){
         System.out.println("INC Rxx → aumenta el valor de Rxx en 1. Si el valor del registro es 232–1, al aumentarlo se genera un desbordamiento obteniendo por resultado 0");
+        
+        if (this.CPU[position] == Integer.parseInt(String.valueOf(Math.round(Math.pow(2, 32) - 1)))){
+            this.CPU[position] = 0;
+        } else{
+            this.CPU[position]++;
+        }
+        
+        this.print();
     }
     
     public void invert(int position){
         System.out.println("INV Rxx → ejecuta una inversión bit a bit del registro Rxx (convierte 1 en 0 y 0 en 1)");
     }
     
-    public void jump(int instruction){
-        System.out.println("JMP d → salta incondicionalmente a la instrucción número d (basado en 1). Se garantiza que d es un número de instrucción válido");
-    }
     
-    
+    //Retorna el valor de R43
     public int returnFinalValue(){
         return this.CPU[42];
+    }
+    
+    //Retorna el valor de R00 para evaluarlo con JZ
+    public int returnInitialValue(){
+        return this.CPU[0];
     }
     
     
