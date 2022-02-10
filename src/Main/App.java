@@ -70,13 +70,20 @@ class App {
                 break;
                 
             case "INV":
+                
+                position1 = params[0];
+                
+                this.invert(convert(position1));
+                
                 break;
+                
             case "JMP":
                 break;
             case "JZ":
                 break;
             case "NOP":
                 System.out.println("Pues no hago nada");
+                this.print();
                 break;
         }  
     }
@@ -158,6 +165,28 @@ class App {
     
     public void invert(int position){
         System.out.println("INV Rxx → ejecuta una inversión bit a bit del registro Rxx (convierte 1 en 0 y 0 en 1)");
+        String aux = "";
+        String binary = Integer.toBinaryString(this.CPU[position]);
+        int aux2 = Integer.parseInt(binary);
+        
+        while (aux2 > 0){
+            if (aux2 % 10 == 0){
+                aux = "1" + aux;
+            } else{
+                aux = "0" + aux;
+            }
+            aux2 = (aux2 / 10);
+        }
+        
+
+        
+        System.out.println("Sin transformar: " + binary);
+        System.out.println("Transformado: " + aux);
+        System.out.println("Entero transformado: " + Integer.parseInt(aux, 2));
+        this.CPU[position] = Integer.parseInt(aux, 2);
+        
+        this.print();
+        
     }
     
     
@@ -170,8 +199,6 @@ class App {
     public int returnInitialValue(){
         return this.CPU[0];
     }
-    
-    
 
 
 }

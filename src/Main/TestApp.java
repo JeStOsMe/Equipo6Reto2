@@ -9,12 +9,13 @@ public class TestApp {
 
     public static void main(String[] args) {
         String[] subRutines = new String[]{
-            "MOV 5,R00",
+            "MOV 13,R00",
+            "INV R00",
             "MOV 10,R01",
-            "JZ 7",
+            "JZ 8",
             "ADD R02,R01",
             "DEC R00",
-            "JMP 3",
+            "JMP 4",
             "MOV R02,R42"
         };
 
