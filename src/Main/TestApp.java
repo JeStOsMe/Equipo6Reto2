@@ -10,7 +10,6 @@ public class TestApp {
         String[] subRutines = new String[]{
             "MOV 5,R00",
             "MOV 10,R01",
-            "MOV 777,R02",
             "JZ 7",
             "ADD R02,R01",
             "DEC R00",
@@ -22,7 +21,19 @@ public class TestApp {
         System.out.println("Welcome to Online IDE!! Happy Coding :)");
         for (String rutine: subRutines){
             app.readInstruction(rutine);
+            app.addSteps();
+            
+            if (app.getSteps() > 50000){
+                System.out.println(" ***** LÍMITE ALCANZADO *****");
+                System.out.println("El valor final de esto es: " + app.returnFinalValue());
+                break;
+            }
         }
+        
+        System.out.println("El valor final de esto es: " + app.returnFinalValue());
+        
+        
+        
     }
 
 }

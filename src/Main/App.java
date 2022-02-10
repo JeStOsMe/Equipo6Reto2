@@ -13,6 +13,7 @@ class App {
     
     private int[] CPU = new int[43];
     private String[] subRutines;
+    private int steps = 0;
     
     public App(String[] subRutines){
         for (int i = 0; i <=42; i++){
@@ -42,14 +43,17 @@ class App {
                     this.move(intPosition1, position2);
                 }
                 
-
                 break;
+                
             case "ADD":
-                /*position1 = Integer.parseInt(params[0].substring(1));
-                position2 = Integer.parseInt(params[1].substring(1));
-                this.add(position1, position2);
-                */
+                
+                position1 = params[0];
+                position2 = params[1];
+                
+                this.add(convert(position1), convert(position2));
+                
                 break;
+                
             case "DEC":
                 break;
             case "INC":
@@ -62,30 +66,18 @@ class App {
                 break;
             case "NOP":
                 break;
-        }
-        
-        /*
-        if(command[0].equalsIgnoreCase("MOV") || command[0].equalsIgnoreCase("ADD")){
-            String[] params = command[1].split(",");
-            if(params[0].startsWith("R")){
-                int position1 = Integer.parseInt(params[0].substring(1));
-                int position2 = Integer.parseInt(params[1].substring(1));
-                if(command[0].equalsIgnoreCase("MOV")){
-                    this.copy(position1, position2);
-                } else {
-                    this.add(position1, position2);
-                }
-            } else {
-                int number = Integer.parseInt(params[0]);
-                int position = Integer.parseInt(params[1].substring(1));
-                this.move(number, position);
-            }
-        } else if(command[1].startsWith("R")) {
-            if();
-        }
-     */   
+        }  
     }
     
+    public void addSteps(){
+        this.steps++;
+    }
+    
+    public int getSteps(){
+        return this.steps;
+    }
+    
+    //Imprime todos los elementos de la CPU
     public void print(){
         for (Object element: this.CPU){
             System.out.print(element + " - ");
@@ -93,6 +85,7 @@ class App {
         System.out.println("");
     }
     
+    //Convierte una posición en un número entero
     public int convert(String pos){
         return Integer.parseInt(pos.replace("R", "0"));
     }
@@ -114,8 +107,13 @@ class App {
         
     }
     
+    //Recibe dos posiciones, suma sus valores, calcula el módulo con 2^32, y asigna el resultado a la posición 1
     public void add(int pos1, int pos2){
-        System.out.println("ADD R" + pos1 + ",R" + pos2 + " => calcula (Rxx + Ryy) MOD 232 y almacena el resultado en el registro Rxx");
+        System.out.println("ADD R" + pos1 + ",R" + pos2 + " => calcula (Rxx + Ryy) MOD 2^32 y almacena el resultado en el registro Rxx");
+        
+        CPU[pos1] = Integer.parseInt(String.valueOf(Math.round((CPU[pos1] + CPU[pos2]) % Math.pow(2, 32))));
+        
+        this.print();
     }
     
     public void decrement(int position){
@@ -135,9 +133,11 @@ class App {
     }
     
     
-    //;
-    //
-    //JZ d → salta a la instrucción d (basado en 1) sólo si el registro R00 contiene 0;
-    //NOP
+    public int returnFinalValue(){
+        return this.CPU[42];
+    }
+    
+    
+
 
 }
