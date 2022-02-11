@@ -150,7 +150,7 @@ class App {
     
     //Dada la posición de entrada, reduce en uno el valor de su elemento
     public void decrement(int position){
-        System.out.println("DEC Rxx → disminuye el valor de Rxx en 1. Si el valor del registro es 0, al disminuirlo se genera un desbordamiento y su resultado sería 232–1");
+        System.out.println("DEC R" + position + " → disminuye el valor de Rxx en 1. Si el valor del registro es 0, al disminuirlo se genera un desbordamiento y su resultado sería 232–1");
         
         if (CPU[position] == 0){
             CPU[position] = Integer.parseInt(String.valueOf(Math.round(Math.pow(2, 32) - 1)));
@@ -174,7 +174,7 @@ class App {
     }
     
     public void invert(int position){
-        System.out.println("INV Rxx → ejecuta una inversión bit a bit del registro Rxx (convierte 1 en 0 y 0 en 1)");
+        System.out.println("INV R" + position + " → ejecuta una inversión bit a bit del registro Rxx (convierte 1 en 0 y 0 en 1)");
         String aux = "";
         String binary = Integer.toBinaryString(this.CPU[position]);
         int aux2 = Integer.parseInt(binary);

@@ -22,61 +22,52 @@ public class TestApp {
         String finalResult = "";
         App app = new App(subRutines);
         System.out.println("Welcome to Online IDE!! Happy Coding :)");
-        
-        if (subRutines.length > 1024){
+
+        if (subRutines.length > 1024) {
             System.out.println("ERROR: solo se aceptan hasta 1024 instrucciones.");
             return;
         }
 
-        try {
-            for (int i = 0; i <= subRutines.length; i++) {
-                
-                if (app.getSteps() > 50000) {
-                    System.out.println(" ***** LÍMITE ALCANZADO *****");
-                    System.out.println("El valor final de esto es: " + app.returnFinalValue());
-                    break;
-                }
-                
-                
-                if (i > subRutines.length) {
-                    break;
-                }
+        for (int i = 0; i < subRutines.length; i++) {
 
-                if (subRutines[i].contains("JZ")) {
-                    if (app.returnInitialValue() == 0) {
-                        i = Integer.parseInt(subRutines[i].split(" ")[1]) - 2;
-                        app.addSteps();
-                        continue;
-                    }
-                    app.addSteps();
-                    continue;
-                }
+            if (app.getSteps() > 50000) {
+                System.out.println(" ***** LÍMITE ALCANZADO *****");
+                System.out.println("El valor final de esto es: " + app.returnFinalValue());
+                break;
+            }
 
-                if (subRutines[i].contains("JMP")) {
+            if (i > subRutines.length) {
+                break;
+            }
+
+            if (subRutines[i].contains("JZ")) {
+                if (app.returnInitialValue() == 0) {
                     i = Integer.parseInt(subRutines[i].split(" ")[1]) - 2;
                     app.addSteps();
                     continue;
                 }
-
-                app.readInstruction(subRutines[i]);
                 app.addSteps();
-
+                continue;
             }
-            
-            finalResult = String.valueOf(app.returnFinalValue());
-            System.out.println("El valor final de esto es: " + finalResult);
-            System.out.println("Total pasos: " + app.getSteps());
-            
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            
-            finalResult = String.valueOf(app.returnFinalValue());
-            System.out.println("El valor final de esto es: " + finalResult);
-            System.out.println("Total pasos: " + app.getSteps());
+
+            if (subRutines[i].contains("JMP")) {
+                i = Integer.parseInt(subRutines[i].split(" ")[1]) - 2;
+                app.addSteps();
+                continue;
+            }
+
+            app.readInstruction(subRutines[i]);
+            app.addSteps();
+
         }
-        
+
+        finalResult = String.valueOf(app.returnFinalValue());
+        System.out.println("El valor final de esto es: " + finalResult);
+        System.out.println("Total pasos: " + app.getSteps());
+
         app.setResult(finalResult);
         String superFinalResult = app.getResult();
-        
+
     }
 
 }
